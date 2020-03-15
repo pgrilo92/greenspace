@@ -7,7 +7,14 @@ const userSchema = new mongoose.Schema({
     email: {type: String, required: true, lowercase: true, unique: true},
     password: String,
     address: String,
+    plaid: [carbonData]
 }, {
+    timestamps: true
+})
+
+const carbonData = new mongoose.Schema({
+    carbonDaily: Number,
+    }, {
     timestamps: true
 })
 

@@ -1,15 +1,15 @@
 import React from 'react';
-//import logo from './logo.svg';
 import './App.css';
 import {Route, Switch} from 'react-router-dom'
 import userService from '../../utilities/userService'
+import Header from '../../components/Header/Header'
 import SignupPage from '../SignupPage/SignupPage'
 import LoginPage from '../LoginPage/LoginPage'
 
 class App extends React.Component {
   constructor() {
     super()
-    this.state ={
+    this.state = {
       user: userService.getUser()
     }
   }
@@ -26,11 +26,12 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <h1>
-            GreenSpace
-          </h1>
-        </header>
+        <Header 
+          {...this.props}
+          handleLogout={this.handleLogout}
+          handleSigninOrSignup={this.handleSigninOrSignup}
+          user={this.state.user}
+        />
         <Switch>
           <Route exact path='/' render={
             (props) => { 

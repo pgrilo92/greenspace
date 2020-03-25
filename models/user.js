@@ -2,19 +2,22 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const SALT_ROUNDS = 6
 
+const carbonSchema = new mongoose.Schema({
+    carbonDaily: {
+            type: Number,
+            default: 0
+        }
+    }, {
+    timestamps: true
+})
+
 const userSchema = new mongoose.Schema({
     name: String,
     email: {type: String, required: true, lowercase: true, unique: true},
     password: String,
     address: String,
-    plaid: [carbonData]
+    carbonData: [carbonSchema]
 }, {
-    timestamps: true
-})
-
-const carbonData = new mongoose.Schema({
-    carbonDaily: Number,
-    }, {
     timestamps: true
 })
 
@@ -30,8 +33,9 @@ userSchema.pre('save', function(next) {
     const user = this
     if(!user.isModified('password')) return next()
     bcrypt.hash(user.password, SALT_ROUNDS, function(err, hash) {
-        if (err) return cb(err)
-        cb(null, isMatch)
+        if (err) return next(err)
+        user.password = hash
+        next()
     })
 })
 

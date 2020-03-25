@@ -7,7 +7,20 @@ module.exports = {
     login
 }
 
-async function login() {
+async function signup(req, res) {
+    const user = new User(req.body)
+    console.log(user)
+    try {
+        await user.save()
+        const token = createJWT(user)
+        console.log(token)
+        res.json({token})
+    } catch(err) {
+        res.status(400).json(err)
+    }
+}
+
+async function login(req, res) {
     try {
         const user = await User.findOne({email: req.body.email})
         if(!user) return res.status(401).json({err: 'bad credentials'})
@@ -20,18 +33,7 @@ async function login() {
             }
         })
     } catch (err) {
-        res.status(400).json(err)
-    }
-}
-
-async function signup() {
-    const user = new User(req.body)
-    try {
-        await user.save()
-        const token = createJWT(user)
-        res.json({token})
-    } catch(err) {
-        res.status(400).json(err)
+        res.status(401).json({err: 'something went wrong'})
     }
 }
 
@@ -40,6 +42,6 @@ function createJWT(user) {
     return jwt.sign(
         {user},
         SECRET,
-        {expiresIn: '24H'}
+        {expiresIn: '24h'}
     )
 }

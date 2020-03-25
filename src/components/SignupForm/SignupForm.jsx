@@ -12,6 +12,7 @@ class SignupForm extends React.Component {
     }
 
     handleChange = (e) => {
+        this.props.updateMessage('')
         this.setState({
             [e.target.name]: e.target.value
         })
@@ -20,14 +21,18 @@ class SignupForm extends React.Component {
     handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            await userService.signup()
+            await userService.signup(this.state)
             this.props.handleSignupOrLogin()
             this.props.history.push('/')
         } catch (err) {
-            alert('Error signing up')
+            this.props.updateMessage(err.message)
         }
     }
 
+    isFormInvalid() {
+        return !(this.state.name && this.state.email && this.state.password === this.state.passwordConf)
+    }
+    
     render() {
         return (
             <div>
@@ -37,16 +42,16 @@ class SignupForm extends React.Component {
                             <h2>Signup</h2>
                         </div>
                         <div className="form-group col-12">
-                            <input type='text' placeholder='Enter Name' name='name' value={this.state.name} onChange={this.handleChange}/>
+                            <input className='form-control' type='text' placeholder='Enter Name' name='name' value={this.state.name} onChange={this.handleChange}/>
                         </div>
                         <div className="form-group col-12">
-                            <input type='email' placeholder='Enter email' name='email' value={this.state.email} onChange={this.handleChange}/>
+                            <input className='form-control' type='email' placeholder='Enter email' name='email' value={this.state.email} onChange={this.handleChange}/>
                         </div>
                         <div className="form-group col-12">
-                            <input type='password' placeholder='Enter Password' name='password' value={this.state.password} onChange={this.handleChange}/>
+                            <input className='form-control' type='password' placeholder='Enter Password' name='password' value={this.state.password} onChange={this.handleChange}/>
                         </div>
                         <div className="form-group col-12">
-                            <input type='password' placeholder='Confirm Password' name='passwordConf' value={this.state.passwordConf} onChange={this.handleChange}/>
+                            <input className='form-control' type='password' placeholder='Confirm Password' name='passwordConf' value={this.state.passwordConf} onChange={this.handleChange}/>
                         </div>
                         <div className="form-group col-12">
                             <button className="btn btn-primary" >Sign Up</button>

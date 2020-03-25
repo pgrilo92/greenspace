@@ -22,7 +22,7 @@ class LoginPage extends React.Component {
             this.props.handleSignupOrLogin()
             this.props.history.push('/')
         } catch (err) {
-            alert('Invalid Credentials')
+            alert('(reminder) logging in but still catching an error ')
         }
     }
 
@@ -35,7 +35,7 @@ class LoginPage extends React.Component {
                             <h2>Login</h2>
                         </div>
                         <div className="form-group col-12">
-                            <input className='form-control' type='email' name='email' placeholder='Enter e-mail' value={this.state.email} onChange={this.handleChange} />
+                            <input className='form-control' type='email' name='email' placeholder='Enter email' value={this.state.email} onChange={this.handleChange} />
                         </div>
                         <div className="form-group col-12">
                             <input className='form-control' type='password' name='password' placeholder='Enter password' value={this.state.password} onChange={this.handleChange} />
@@ -44,7 +44,7 @@ class LoginPage extends React.Component {
                             <button className="btn btn-primary">Login</button>&nbsp;&nbsp;
                             <Link to='/'>Cancel</Link>
                         </div>
-                </div>
+                    </div>
                 </form>
             </div>
         )
